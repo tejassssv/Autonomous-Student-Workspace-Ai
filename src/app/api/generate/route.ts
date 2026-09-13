@@ -93,7 +93,8 @@ Note: correctAnswer should be the 0-based index of the correct option.
       });
     } else if (filename.endsWith(".docx") || filename.endsWith(".pptx") || filename.endsWith(".doc") || filename.endsWith(".ppt")) {
       try {
-        const text = await officeParser.parseOfficeAsync(buffer);
+        const ast = await officeParser.parseOffice(buffer);
+        const text = ast.toText();
         response = await ai.models.generateContent({
           model: 'gemini-3.6-flash',
           contents: `Here is the extracted document text:\n\n${text.substring(0, 50000)}\n\n${promptText}`
